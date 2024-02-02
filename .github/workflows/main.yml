@@ -1,0 +1,43 @@
+name: Deploy mdBook to Deployment Branch
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout master branch
+      uses: actions/checkout@v2
+      with:
+        ref: 'master'
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        profile: minimal
+        override: true
+
+    - name: Install mdbook
+      run: cargo install mdbook
+
+    - name: Build mdBook
+      run: mdbook build
+
+    - name: Prepare Deployment Branch
+      run: |
+        git checkout master
+        git branch -D deployment || true
+        git config --global user.email "939401399@qq.com"
+        git config --global user.name "superggn"
+        git checkout -b deployment
+        rm -r docs || true
+        mkdir docs
+        cp -r book/* docs/
+        git add --all
+        git commit -m "Deploy updated documentation"
+        git push origin HEAD --force

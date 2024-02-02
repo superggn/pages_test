@@ -1,0 +1,6 @@
+[book]
+authors = ["superggn"]
+language = "en"
+multilingual = false
+src = "src"
+title = "pages_test"
