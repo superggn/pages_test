@@ -45,3 +45,9 @@ pages 是在 git repo 的 Settings 里面找 Pages， 那里有一堆部署设�
 ##### 啥思路
 用 github actions 侦测某分支的新 commit， 一旦发现新推送， 配置 mdbook 环境在线渲染， 推送到 deployment 分支下， 让 github pages 自动部署
 
+#### 附录 - mdbook
+
+```
+cargo install mdbook
+mdbook build path/to/book --open
+```
